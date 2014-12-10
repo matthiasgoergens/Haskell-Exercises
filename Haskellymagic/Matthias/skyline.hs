@@ -75,11 +75,20 @@ skylinearea l = let newlist = removeDups l in
 prop_sky1 :: [Rectangle] -> [Rectangle] -> Bool
 prop_sky1 a b = skylinearea (a ++ b) >= skylinearea a && skylinearea (a ++ b) >= skylinearea b
 
+prop_sub :: [[Rectangle]] -> Bool
+prop_sub a = sum (map skylinearea a) >= skylinearea (concat a)
+
 prop_skyheight :: [Rectangle] -> Property
 prop_skyheight l = 2 * skylinearea l === skylinearea (map doubleHeight l)
 
+prop_max :: [[Rectangle]] -> Bool
+prop_max a = maximum (0 : map skylinearea a) <= skylinearea (concat a)
+
 prop_skyx :: [Rectangle] -> Property
 prop_skyx l = skylinearea l === skylinearea (l ++ l)
+
+prop_order :: [Rectangle] -> [Rectangle] -> Property
+prop_order a b = skylinearea (a++b) === skylinearea (b++a)
 
 prop_pos :: [Rectangle] -> Bool
 prop_pos l = skylinearea l >= 0
